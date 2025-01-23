@@ -1,0 +1,9 @@
+{
+    "name": "StockPlus",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/RoosterBooster007/StockPlus/",
+    "description": "Restocks your supermarket for you! Boxes will be ordered automatically. More QoL fixes coming soon...",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2100"
+    ]
+}
