@@ -9,7 +9,7 @@ A Supermarket Together mod that restocks your supermarket for you! Boxes will be
 ## Dependencies
 | Required | Name | Version |
 |:--------:|:-------------|:------|
-| ✅ | [BepInExPack](https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/versions/#:~:text=5.4.2100) | 5.4.2100 |
+| ✅ | [BepInExPack](https://thunderstore.io/c/supermarket-together/p/BepInEx/BepInExPack/versions/#:~:text=5.4.2100) | 5.4.2100 |
 
 ## Features & Config
 | Option | Type | Default |  Description |
