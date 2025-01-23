@@ -30,7 +30,7 @@ namespace StockPlus
         private void Awake()
         {
             isStocking = Config.Bind("Settings", "Auto Stocking Enabled", true, "Any available items (when they are fewer than the threshold below) will be purchased automatically.");
-            minStockThreshold = Config.Bind("Settings", "Minimum Stock Threshold", 16, "When there are fewer of each item (than this float value) available, they will be added to the shopping list (and purchased).");
+            minStockThreshold = Config.Bind("Settings", "Minimum Stock Threshold", 16, "When there are fewer of each item (than this value) available, they will be added to the shopping list (and purchased).");
             telemetryEnabled = Config.Bind("Misc", "Enable Telemetry", true, "Help me improve this mod by sending logs of small mod/game events.");
 
             Harmony = new Harmony(GUID);
