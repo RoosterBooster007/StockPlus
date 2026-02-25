@@ -96,31 +96,54 @@ namespace StockPlus
                 }
             }
 
+            Type dataProductType = typeof(ProductListing).GetNestedType("ProductData", BindingFlags.Public | BindingFlags.NonPublic);
+
+            FieldInfo productsDataField = typeof(ProductListing).GetField("productsData", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo productTierField = dataProductType.GetField("productTier");
+            FieldInfo basePricePerUnitField = dataProductType.GetField("basePricePerUnit");
+            FieldInfo maxItemsPerBoxField = dataProductType.GetField("maxItemsPerBox");
+
+            Array productsData = (Array)productsDataField.GetValue(plisting);
+            MethodInfo gpeInfo = typeof(ManagerBlackboard).GetMethod("GetProductsExistences", BindingFlags.NonPublic | BindingFlags.Instance);
+
             int count = 0;
             int items = 0;
             float cost = 0;
             foreach (int prodID in plisting.availableProducts)
             {
-                Data_Product prodData = plisting.productPrefabs[prodID].GetComponent<Data_Product>();
-                if (prodData == null || !plisting.unlockedProductTiers[prodData.productTier])
+                if (prodID < 0 || prodID >= productsData.Length)
                 {
                     return;
                 }
 
-                MethodInfo gpeInfo = typeof(ManagerBlackboard).GetMethod("GetProductsExistences", BindingFlags.NonPublic | BindingFlags.Instance);
+                object prodData = productsData.GetValue(prodID);
+                if (prodData == null)
+                {
+                    return;
+                }
+
+                int productTier = (int)productTierField.GetValue(prodData);
+                if (!plisting.unlockedProductTiers[productTier])
+                {
+                    return;
+                }
+
                 if (gpeInfo != null)
                 {
                     int[] existences = (int[])gpeInfo.Invoke(mboard, new object[] { prodID });
                     if (existences.Sum() < minStockThreshold.Value)
                     {
-                        float price = prodData.basePricePerUnit * plisting.tierInflation[prodData.productTier];
-                        price *= prodData.maxItemsPerBox;
+                        float basePricePerUnit = (float)basePricePerUnitField.GetValue(prodData);
+                        int maxItemsPerBox = (int)maxItemsPerBoxField.GetValue(prodData);
+
+                        float price = basePricePerUnit * plisting.tierInflation[productTier];
+                        price *= maxItemsPerBox;
                         price = Mathf.Round(price * 100f) / 100f;
 
                         mboard.AddShoppingListProduct(prodID, price);
 
                         count++;
-                        items += prodData.maxItemsPerBox;
+                        items += maxItemsPerBox;
                         cost += price;
                     }
                 }
