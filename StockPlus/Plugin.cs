@@ -16,7 +16,7 @@ namespace StockPlus
     {
         private const string GUID = "RB007.plugins.StockPlus";
         private const string PluginName = "StockPlus";
-        private const string VersionString = "1.0.0";
+        private const string VersionString = "1.0.1";
         internal static Harmony Harmony;
 
         internal static bool isHost = false;
